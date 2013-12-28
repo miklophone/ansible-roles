@@ -1,0 +1,17 @@
+[local]
+127.0.0.1
+
+[foo-netkernel]
+192.34.57.191 nkhostname=Randys-MacBook-Pro.local
+
+[digitalocean]
+162.243.47.44 hostname=maven
+
+[experiment]
+192.81.211.94 hostname=digitalocean03
+
+[setup-users]
+192.81.211.94
+
+[netkernel]
+192.81.211.94

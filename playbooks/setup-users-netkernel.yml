@@ -1,0 +1,14 @@
+---
+- hosts: netkernel
+  user: admin
+  sudo: yes
+  
+  tasks:
+  #
+  # This playbook will set up netkernel standard edition
+  #
+  - name: create user netkernel
+    action: user name=netkernel  shell=/bin/bash uid=1100 password=$6$hFN6MFiP$7nk4PG5sw/n58bRLekTQmpo0IK4JO8ffP6BDyORroCRAy/ww7LmC5cwtAGpSSkiUfgBOwBxZ/14XdNWsSt7xg.
+  
+  - name: setup authorized key for netkernel
+    action: authorized_key user=netkernel  key='$FILE(~/.ssh/id_rsa.pub)'
