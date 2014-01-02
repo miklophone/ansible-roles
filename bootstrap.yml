@@ -1,0 +1,14 @@
+---
+# Bootstrap compute instances into a standard base state
+
+ - hosts: bootstrap
+   user:  root
+   vars:
+    
+
+   roles:
+    - bootstrap
+  
+
+   
+

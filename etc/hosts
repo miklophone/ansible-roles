@@ -1,17 +1,37 @@
+[bootstrap]
+95.85.1.55 hostname=test01
+
+
 [local]
 127.0.0.1
 
-[foo-netkernel]
-192.34.57.191 nkhostname=Randys-MacBook-Pro.local
 
-[digitalocean]
-162.243.47.44 hostname=maven
+[digitalocean-nyc1]
 
-[experiment]
-192.81.211.94 hostname=digitalocean03
+[digitalocean-nyc2]
+162.243.47.44   hostname=maven
 
-[setup-users]
-192.81.211.94
+[digitalocean-ams1]
 
-[netkernel]
-192.81.211.94
+[digitalocean-ams2]
+95.85.1.55 hostname=test01
+
+
+
+[digitalocean-ams:children]
+digitalocean-ams1
+digitalocean-ams2
+
+[digitalocean-nyc:children]
+digitalocean-nyc1
+digitalocean-nyc2
+
+[digitalocean:children]
+digitalocean-nyc
+digitalocean-ams
+
+[nyc:children]
+digitalocean-nyc
+
+[ams:children]
+digitalocean-ams

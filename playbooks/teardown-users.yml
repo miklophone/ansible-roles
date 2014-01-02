@@ -1,5 +1,5 @@
 ---
-- hosts: setup-users
+- hosts: all
   user:  root
   
   tasks:

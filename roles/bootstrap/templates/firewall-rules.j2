@@ -1,45 +1,38 @@
 *filter
 
 #  Allow all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
+#
 -A INPUT -i lo -j ACCEPT
 -A INPUT -d 127.0.0.0/8 -j REJECT
 
 #  Accept all established inbound connections
+#
 -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-#  Allow all outbound traffic - you can modify this to only allow certain traffic
+#  Allow all outbound traffic
+#
 -A OUTPUT -j ACCEPT
-
-#  Allow HTTP and HTTPS connections from anywhere (the normal ports for websites and SSL).
--A INPUT -p tcp --dport 80 -j ACCEPT
--A INPUT -p tcp --dport 443 -j ACCEPT
 
 #  Allow SSH connections
 #
-#  The -dport number should be the same port number you set in sshd_config
-#
 -A INPUT -p tcp -m state --state NEW --dport {{ sshport }} -j ACCEPT
 
-# Allow connections to NetKernel Frontend Fulcrum on port 8080
-#
-#
-#
--A input -p tcp -m state --state NEW --dport 8080 -j ACCEPT
-
-# Port forward 80 to NetKernel
-#
-#
--A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 8080
-
 #  Allow ping
+#
 -A INPUT -p icmp -j ACCEPT
 
 #  Log iptables denied calls
+#
 -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
 
 #  Drop all other inbound - default deny unless explicitly allowed policy
+#
 -A INPUT -j DROP
 -A FORWARD -j DROP
 
 COMMIT
 
+
+# Here is a rate-limiting rule for SSH
+# -A INPUT -p tcp --dport {{ sshport }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --set
+# -A INPUT -p tcp --dport {{ sshport }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --seconds 60 --hitcount 5 -j DROP

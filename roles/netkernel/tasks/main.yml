@@ -1,0 +1,10 @@
+---
+# This role contains plays that install and configure NetKernel
+
+# Setup the core packages that we need
+
+ - name: Install OpenJDK 7 JRE headless
+   apt:  
+     pkg=openjdk-7-jre-headless
+     update_cache=yes
+

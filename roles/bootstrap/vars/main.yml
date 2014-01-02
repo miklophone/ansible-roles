@@ -1,0 +1,8 @@
+---
+# Variables required for core setup
+# This file is in the /vars folder, so these override everything except -e set variables
+
+remote_port: 22
+remote_user: root
+
+

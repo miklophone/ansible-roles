@@ -1,0 +1,14 @@
+# roles/common/tasks/main.yml
+---
+# This role contains plays that are common to all servers
+  
+# Make sure package manager has the latest
+
+ - name: Update APT to latest packages
+   apt:  update_cache
+
+ - name: Update all existing APT packages on the system
+   apt:  upgrade=yes
+
+ - name: Install Emacs editors
+   apt:  pkg=emacs23 
