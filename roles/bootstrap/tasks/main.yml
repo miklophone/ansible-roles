@@ -64,17 +64,22 @@
    user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }}
    with_items: users
 
+ - name: Sudo users
+   command: sudo usermod -a -G sudo {{ item.name }}
+   with_items: users
+
  - name: Create .ssh directories
-   command: mkdir /home/{{ item.name }}/.ssh
+   file: path="/home/{{ item.name }}/.ssh" state=directory mode=700 group={{ item.name}} owner={{ item.name }}
    with_items: users
 
  - name: Setup user RSA public keys
    copy: src="files/users/{{ item.name }}_rsa.pub" dest="/home/{{ item.name }}/.ssh/authorized_keys"
    with_items: users
 
- - name: Change ownership of RSA pub key file
-   shell: chown {{ item.name }}:{{ item.name }} /home/{{ item.name }}/.ssh/authorized_keys
+ - name: Set security and ownership on authorized_keys
+   file: path="/home/{{ item.name }}/.ssh/authorized_keys" mode=600 group={{ item.name}} owner={{ item.name }}
    with_items: users
+
 
 # Setup SSH configuration
 
@@ -90,6 +95,17 @@
      backup: yes
      dest: /etc/issue.net
      src: issue.j2
+
+ - name: Get rid of /etc/motd message
+   file: 
+    path=/etc/motd
+    state=absent
+
+ - name: Create empty /etc/motd
+   file:
+     path=/etc/motd
+     state=touch
+
 
 
 # Reboot computer 

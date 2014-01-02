@@ -1,3 +1,6 @@
+Bugs
+
+
 Things to do to make this a generalized solution:
 
 1) Create a variable for the domain (e.g. netkernelroc.org) and substitute in bootstrap
