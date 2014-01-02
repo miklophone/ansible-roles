@@ -11,4 +11,6 @@ Things to do to make this a generalized solution:
 
 4) Can we pull out encrypted user passwords into local files?
 
-5) 
+5) Add NTP to the bootstrap service
+
+6) 
