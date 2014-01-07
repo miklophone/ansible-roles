@@ -2,6 +2,14 @@ Bugs
 
 * Change Oracle Java install to a module with idempotency
 
+* MemSQL - add a conditional so that we don't install if it's already a service
+
+* MemSQL - add default / override variables for license key and version number
+         - add support for upgrading
+
+
+* In general - all of these scripts are for Debian systems. Add other OSes.
+
 Things to do to make this a generalized solution:
 
 1) Create a variable for the domain (e.g. netkernelroc.org) and substitute in bootstrap

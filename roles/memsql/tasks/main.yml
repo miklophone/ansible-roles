@@ -1,0 +1,19 @@
+---
+# This role contains plays that install and configure MemSQL
+
+ - name: Install G++ compiler
+   apt:  pkg=g++
+
+ - name: Download MemSQL Debian package
+   get_url:
+     dest=/home/{{ user }}/memsql-2.5.x86_64.deb
+     url=http://download.memsql.com/ba4bf06801d64f659b2f98a1feec020b/memsql-2.5.x86_64.deb
+     
+# TODO: Add a when clause to only run this is the service is not present
+ - name: Install MemSQL Debing package
+   command: 'dpkg -i /home/{{ user }}/memsql-2.5.x86_64.deb'
+
+ - name: Start the MemSQL service
+   service: 
+     name=memsql
+     state=started
