@@ -103,6 +103,17 @@
      path=/etc/motd
      state=touch
 
+# Ensure that we can create users without shell access
+# TODO: This is only for Debian based system. Generalize to other OSes
+# Ref: http://www.cyberciti.biz/tips/howto-linux-shell-restricting-access.html
+
+ - name: Add a nologin shell to the list of possible shells
+   lineinfile:
+     dest=/etc/shells
+     line='/usr/sbin/nologin'
+     state=present
+   
+
 
 
 # Reboot computer 
