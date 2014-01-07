@@ -1,13 +1,6 @@
 ---
 # This role contains plays that install and configure Java
 
-# Setup the core packages that we need
-
- - name: Remove OpenJDK 7 JRE
-   apt:  
-     pkg=openjdk-7-jre-headless
-     state=removed
-
 # Setup Oracle Java 7
 # http://www.wikihow.com/Install-Oracle-Java-on-Ubuntu-Linux
 

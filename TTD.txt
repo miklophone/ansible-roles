@@ -1,5 +1,6 @@
 Bugs
 
+* Change Oracle Java install to a module with idempotency
 
 Things to do to make this a generalized solution:
 

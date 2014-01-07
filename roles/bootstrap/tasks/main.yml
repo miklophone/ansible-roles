@@ -12,9 +12,6 @@
  - name: Install Emacs editor
    apt:  pkg=emacs
 
-# - name: Install OpenJDK 7 JRE headless
-#   apt:  pkg=openjdk-7-jre-headless
-
 # Setup the hostname correctly (important for NetKernel licensing)
 
  - name: Add correct hostname to /etc/hosts
