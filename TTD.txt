@@ -7,6 +7,9 @@ Bugs
 * MemSQL - add default / override variables for license key and version number
          - add support for upgrading
 
+* Iterate over users to add to AllowUsers in SSH config
+
+
 
 * In general - all of these scripts are for Debian systems. Add other OSes.
 
