@@ -1,0 +1,6 @@
+---
+# This role reboots the computer
+
+ - name: Reboot
+   command: shutdown -r now
+

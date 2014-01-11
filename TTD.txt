@@ -1,5 +1,7 @@
 Bugs
 
+* user role: How do I remove users that are not on the list?
+
 * Change Oracle Java install to a module with idempotency
 
 * MemSQL - add a conditional so that we don't install if it's already a service

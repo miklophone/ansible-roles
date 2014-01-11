@@ -3,7 +3,7 @@
 
 # Setup the core packages that we need
 
- - name: Update APT to latest packages
+ - name: Update APT cache
    apt:  update_cache=yes
 
  - name: Update all existing APT packages on the system
@@ -50,43 +50,6 @@
      src:  firewall-script.j2
      mode: 0755
 
-
-# Setup user accounts
-
-# - name: Remove user accounts
-#   user:  name={{ item.name }} state=absent remove=yes
-#   with_items: users
-
- - name: Setup user accounts
-   user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }}
-   with_items: users
-
- - name: Sudo users
-   command: sudo usermod -a -G sudo {{ item.name }}
-   with_items: users
-
- - name: Create .ssh directories
-   file: path="/home/{{ item.name }}/.ssh" state=directory mode=700 group={{ item.name}} owner={{ item.name }}
-   with_items: users
-
- - name: Setup user RSA public keys
-   copy: src="files/users/{{ item.name }}_rsa.pub" dest="/home/{{ item.name }}/.ssh/authorized_keys"
-   with_items: users
-
- - name: Set security and ownership on authorized_keys
-   file: path="/home/{{ item.name }}/.ssh/authorized_keys" mode=600 group={{ item.name}} owner={{ item.name }}
-   with_items: users
-
-
-# Setup SSH configuration
-
- - name: Setup SSH service configuration
-   template:
-     backup: yes
-     dest: /etc/ssh/sshd_config
-     src: sshd-config.j2
-     mode: 0644
-
  - name: Copy new issue
    template:
      backup: yes
@@ -112,11 +75,4 @@
      dest=/etc/shells
      line='/usr/sbin/nologin'
      state=present
-   
-
-
-
-# Reboot computer 
- - name: Reboot
-   command: shutdown -r now
 

@@ -8,6 +8,8 @@
 
    roles:
     - bootstrap
+    - users
+    - reboot
   
 
    

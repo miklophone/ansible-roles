@@ -88,6 +88,8 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
+# Additional security
+AllowUsers {% for user in users %}  {{ user.name }} {% endfor %}
 
 
 
