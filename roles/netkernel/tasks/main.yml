@@ -1,3 +1,16 @@
 ---
 # This role contains plays that install and configure NetKernel
+# TODO: This works for Debian based systems only. Support non-Debian also
+# Ref: http://www.cyberciti.biz/tips/howto-linux-shell-restricting-access.html
 
+ - name: create user netkernel
+   user:  name=netkernel state=present generate_ssh_key=no shell=/usr/sbin/nologin uid=1100 createhome=no
+
+
+ - name: Copy NetKernel 5 EE
+   copy:
+     src=1060-NetKernel-EE-5.2.1.jar
+     dest=/home/{{ user }}/1060-NetKernel-EE-5.2.1.jar
+     owner={{ user }}
+     group={{ user }}
+     mode=600

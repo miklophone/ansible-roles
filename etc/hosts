@@ -1,20 +1,34 @@
 [bootstrap]
-162.243.229.28 hostname=test02
+162.243.254.84 hostname=test-10
 
 [local]
 127.0.0.1
 
+[netkernel]
+192.241.144.58 hostname=maven
+162.243.254.84 hostname=test-10
+
+[memsql]
+
+[park]
+
+[cassandra]
+
+
+
 
 [digitalocean-nyc1]
+192.241.144.58  hostname=maven
+
 
 [digitalocean-nyc2]
-162.243.47.44   hostname=maven
-162.243.229.28  hostname=test02
+162.243.254.84 hostname=test-10
+
 
 [digitalocean-ams1]
 
 [digitalocean-ams2]
-95.85.1.55 hostname=test01
+
 
 
 
@@ -35,3 +49,5 @@ digitalocean-nyc
 
 [ams:children]
 digitalocean-ams
+
+

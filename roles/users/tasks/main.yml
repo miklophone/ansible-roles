@@ -29,9 +29,17 @@
 # Setup SSH configuration
 
  - name: Setup SSH service configuration
-   template:
-     backup: yes
-     dest: /etc/ssh/sshd_config
-     src: sshd-config.j2
-     mode: 0644
+   template: backup=yes dest=/etc/ssh/sshd_config src=sshd-config.j2 mode=0644
+   notify: restart ssh
+
+#   template:
+#     backup: yes
+#     dest: /etc/ssh/sshd_config
+#     src: sshd-config.j2
+#     mode: 0644
+#   notify: restart ssh
+
+
+
+
 

@@ -1,0 +1,11 @@
+---
+
+ - hosts: cassandra
+   sudo: yes
+   vars:
+     ansible_ssh_port: 2222
+
+   roles:
+    - users
+  
+   

@@ -6,7 +6,8 @@
      ansible_ssh_port: 2222
 
    roles:
+    - users
     - java
-# - netkernel
+    - netkernel
   
    

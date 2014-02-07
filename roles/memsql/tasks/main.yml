@@ -10,9 +10,12 @@
      url=http://download.memsql.com/ba4bf06801d64f659b2f98a1feec020b/memsql-2.5.x86_64.deb
      
 # TODO: Add a when clause to only run this is the service is not present
- - name: Install MemSQL Debing package
+# TODO: Only go past this point is there is at least 8 Gig RAM
+ - name: Install MemSQL Debian package
    command: 'dpkg -i /home/{{ user }}/memsql-2.5.x86_64.deb'
 
+
+# TODO: Change this to a handler call
  - name: Start the MemSQL service
    service: 
      name=memsql
