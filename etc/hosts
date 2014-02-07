@@ -1,12 +1,12 @@
 [bootstrap]
-162.243.254.84 hostname=test-10
+107.170.24.119 hostname=test-01
 
 [local]
 127.0.0.1
 
 [netkernel]
 192.241.144.58 hostname=maven
-162.243.254.84 hostname=test-10
+107.170.24.119 hostname=test-01
 
 [memsql]
 
@@ -22,7 +22,7 @@
 
 
 [digitalocean-nyc2]
-162.243.254.84 hostname=test-10
+107.170.24.119 hostname=test-01
 
 
 [digitalocean-ams1]

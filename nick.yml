@@ -1,6 +1,6 @@
 ---
 
- - hosts: all
+ - hosts: nick
    sudo: yes
    vars:
      ansible_ssh_port: 2222

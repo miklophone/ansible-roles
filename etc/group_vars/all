@@ -10,4 +10,5 @@ users:
  - {name: teresa,  group: admin, shell: /bin/bash, uid: 1001, sshkey: /files/users/teresa_rsa.pub, password: $6$KNz3TNDR$TLRF1kwU.4Z4aCOjEo4DZ12dls0z.BVjhcpFfB8eS/xhkFq.1UD61lK6LJiC3wV9k92ovoXTLatX3zAT567rC/ }
  - {name: mircea,  group: admin, shell: /bin/bash, uid: 1002, sshkey: /files/users/mircea_rsa.pub, password: $6$SZfXeLgrymT$FnHWQEi30zbg0vMSFc.ujvSQaxaZGzBLQiSaUDo5kTsNz0FgIUVvM7T2ass.ZOnI/6gVgRv797xzEF7Mh/7Z7. }
  - {name: chris,   group: admin, shell: /bin/bash, uid: 1003, sshkey: /files/users/chris_rsa.pub,  password: A }
+ - {name: nicolas, group: admin, shell: /bin/bash, uid: 1004, sshkey: /files/users/nicolas_rsa.pub, password: $6$EgkWwvNC$YYLH9J1PbjRxhGXEVpnQ6IVBt89pA2xKgx9wYTOXl19mfib0iOrvUp9pyD.VPzgZDfuXUjkkbx6G7ny.VQxIg/ }
 
