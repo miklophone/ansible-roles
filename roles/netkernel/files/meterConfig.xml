@@ -1,0 +1,12 @@
+<meter>
+	<servers>
+		<server>license.netkernelroc.org</server>
+		<!--Can have failover meter servers when in production-->
+	</servers>
+	<period>336</period>	<!--Two weeks in hours-->
+	<!--
+	Set the credentials here:  http://license.netkernelroc.org:1060/tools/ee/meter-server/authsetup
+	-->
+	<username>netkernelroc</username>
+	<password>3NbLY3KcTEdrEGqPYAwa</password>
+</meter>

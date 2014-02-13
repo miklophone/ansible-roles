@@ -1,28 +1,25 @@
-[bootstrap]
-107.170.24.119 hostname=test-01
 
-[local]
-127.0.0.1
+[bootstrap]
+198.211.100.46 fqdn=nk-01.netkernelroc.org
 
 [netkernel]
-192.241.144.58 hostname=maven
-107.170.24.119 hostname=test-01
+198.211.100.46 fqdn=nk-01.netkernelroc.org
+
 
 [memsql]
 
-[park]
-
 [cassandra]
+#license.netkernelroc.org hostname=license ansible_ssh_user=randy ansible_ssh_port=2222
+#maven.netkernelroc.org   hostname=maven   ansible_ssh_user=randy ansible_ssh_port=2222
 
 
 
 
 [digitalocean-nyc1]
-192.241.144.58  hostname=maven
-
+#maven.netkernelroc.org
+#license.netkernelroc.org
 
 [digitalocean-nyc2]
-107.170.24.119 hostname=test-01
 
 
 [digitalocean-ams1]

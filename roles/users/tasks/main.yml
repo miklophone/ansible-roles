@@ -6,12 +6,13 @@
 #   with_items: users
 
  - name: Setup user accounts
-   user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }}
+   user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }} groups='sudo'
    with_items: users
 
- - name: Sudo users
-   command: sudo usermod -a -G sudo {{ item.name }}
-   with_items: users
+# - name: Sudo users
+#   command: sudo usermod -a -G sudo {{ item.name }}
+#   with_items: users
+
 
  - name: Create .ssh directories
    file: path="/home/{{ item.name }}/.ssh" state=directory mode=700 group={{ item.name}} owner={{ item.name }}

@@ -1,6 +1,6 @@
 ---
 
- - hosts: all
+ - hosts: bootstrap
    sudo: yes
    vars:
      ansible_ssh_port: 2222

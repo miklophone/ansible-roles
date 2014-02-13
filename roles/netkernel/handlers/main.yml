@@ -1,0 +1,6 @@
+---
+- name: start netkerneld
+  service: name=netkerneld state=started
+
+- name: restart netkerneld
+  service: name=netkerneld state=restarted

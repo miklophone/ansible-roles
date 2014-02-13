@@ -1,0 +1,176 @@
+#!/bin/bash
+# chkconfig: - 82 18
+# description: 1060 NetKernel
+
+HOMEDIR=/opt/netkernel
+USER=netkernel
+APPNAME=NetKernel
+
+# User Editable variables
+GREPPID="ten60.pid=1" # Must match the ten60.pid value set
+                      # in the netkernel.sh script
+BACKEND="1060"        # HTTP port of backend fulcrum
+
+# Local variables
+INITSCRIPT=$HOMEDIR/bin/netkernel.sh
+STOPURL="http://localhost:$BACKEND/tools/shutdown?action2=force"
+REBOOTURL="http://localhost:$BACKEND/tools/reboot?action2=force"
+POLLURL="http://localhost:$BACKEND"
+GREPTEXT="BootLoader"
+
+# Logging Path - add this to your logrotate schedule as required
+LOGFILE="$HOMEDIR/log/netkernel.out"
+
+# Check for init script
+if [ ! -f $INITSCRIPT ]; then
+  echo "$APPNAME not available... (no  $INITSCRIPT)" >&2
+  exit 1 
+fi
+
+# Check user identity
+ID=$(id -u "$USER" 2>/dev/null)
+if [ -z "$ID" ]; then
+  echo "$USER is not a user. Please create a account first" >&2
+  echo "This script controls NetKernel as a daemon" >&2
+  echo "you can start NetKernel directly with netkernel.sh" >&2
+  exit 1
+fi
+
+
+setpslist() {
+  pslist=$(ps ax --width=2000 | \
+    grep "$GREPTEXT" | \
+    grep "$GREPPID" | \
+    grep -v PID | \
+    awk '{printf $1 " "}')
+}
+
+
+start() {
+  setpslist
+
+  if [ ! -z "$pslist" ]; then
+    echo "$APPNAME already running, can't start it" >&2
+    return 1
+  fi
+
+  echo -n "Starting $APPNAME: "
+
+  if [ ! -e "$LOGFILE" ]; then
+     touch $LOGFILE
+     chown $USER:$USER $LOGFILE
+  fi
+
+  exec su - -p --shell=/bin/sh $USER \
+    -c "$INITSCRIPT &>\"$LOGFILE\"" &>"$LOGFILE" &
+
+  local starttime=$(date +"%s")
+
+  while true; do
+    sleep 3
+    local now=$(date +"%s")
+    if wget --tries=1 --timeout=1 \
+      --server-response -O - "$POLLURL" 2>&1 | \
+      grep -qai " HTTP/1.1 "; then
+      echo "Started"
+      break
+    fi
+    
+    if [ $(($now - 10)) -gt $starttime ]; then
+      setpslist
+      if [ -z "$pslist" ]; then
+        echo "Java not starting up, $APPNAME not running.">&2
+        tail -10 $LOGFILE
+        return 1
+      fi 
+    fi
+    
+    if [ $(($now - 50)) -gt $starttime ]; then
+      echo "Startup taking too long, giving up" >&2;
+      return 1
+    fi
+
+    echo -n . 
+  done
+}
+
+stop() {
+  setpslist
+
+  if [ -z "$pslist" ]; then
+    echo "$APPNAME not running, no need to stop it"
+    return 0
+  fi
+
+  echo -n "Shutting down $APPNAME: "
+
+  wget --tries=1 --timeout=1 \
+   --server-response -O - $STOPURL 2>&1 | \
+   grep -qai " HTTP/1.1 "
+
+  local needtokill=N
+  local starttime=$(date +"%s")
+  while true; do
+    sleep 3
+    local now=$(date +"%s")
+
+    setpslist
+    
+    if [ -z "$pslist" ]; then
+      echo "  Stopped"
+      return 0
+    fi
+    
+    if [ "$needtokill" = "Y" ]; then
+      echo -n "  Killing. "
+      kill -SIGKILL $pslist
+    else
+      if [ $(($now - 50)) -gt $starttime ]; then
+        echo -n "  graceful shutdown taking too long.";
+        kill -SIGTERM $pslist
+        needtokill=Y
+      fi 
+    fi
+    echo -n . 
+  done
+}
+
+status() {
+
+  setpslist
+
+  if [ ! -z "$pslist" ]; then
+    echo -n "$APPNAME ( PIDs $pslist ) is running."
+
+    if wget --tries=1 --timeout=1 \
+      --server-response -O - "$POLLURL" 2>&1 | \
+      grep -qai " HTTP/1.1 "; then
+      echo " And listening on port $BACKEND."
+    else
+      echo " But not responding on port $BACKEND."
+    fi else
+    echo "$APPNAME is stopped"
+  fi
+}
+
+case "$1" in
+  start)
+    start
+    ;; 
+  stop)
+    stop
+    ;; 
+  restart)
+    stop
+    sleep 3
+    start
+    ;;
+  status)
+    status
+    ;; 
+  *)
+    echo "Usage: $0 {start|stop|reboot|status}"
+    exit 1 
+esac
+
+exit $?

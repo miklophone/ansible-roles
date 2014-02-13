@@ -50,6 +50,9 @@
      src:  firewall-script.j2
      mode: 0755
 
+ - name: Establish firewall rules
+   shell: "/etc/network/if-pre-up.d/firewall"
+
  - name: Copy new issue
    template:
      backup: yes
@@ -75,4 +78,35 @@
      dest=/etc/shells
      line='/usr/sbin/nologin'
      state=present
+
+#
+# Setup the /etc/hosts file so that NetKernel can pickup the hostname
+#
+
+ - name: Remove the 127.0.0.1 line
+   lineinfile:
+     dest=/etc/hosts
+     state=absent
+     regexp="^127.*"
+
+ - name: Remove the full IP line
+   lineinfile:
+     dest=/etc/hosts
+     state=absent
+     regexp="^{{ ansible_default_ipv4.address }}.*"
+
+ - name: Add the localhost 127.0.0.1 address
+   lineinfile:
+     dest=/etc/hosts
+     state=present
+     insertbefore=BOF
+     line="127.0.0.1 {{ fqdn }} {{ ansible_hostname }} localhost"
+
+ - name: Add the full IP address
+   lineinfile:
+     dest=/etc/hosts
+     state=present
+     insertbefore=BOF
+     line="{{ ansible_default_ipv4.address }} {{ fqdn }}"
+
 

@@ -1,8 +1,4 @@
 ---
-# We always use SSH on port 2222
-remote_port: 2222
-
-
 # User names (override of the defaults in the bootstrap role)
 
 users:

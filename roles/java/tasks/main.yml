@@ -12,9 +12,9 @@
  - name: Copy Java 7u45 to compute instance
    copy:
      src=jdk-7u45-linux-x64.tar.gz
-     dest=/home/{{ user }}/jdk-7u45-linux-x64.tar.gz
-     owner={{ user }}
-     group={{ user }}
+     dest=/home/{{ ansible_ssh_user }}/jdk-7u45-linux-x64.tar.gz
+     owner={{ ansible_ssh_user }}
+     group={{ ansible_ssh_user }}
      mode=600
    when: java_version.stdout != '"1.7.0_45"'
 
@@ -28,7 +28,7 @@
 
      
  - name: Copy Java TAR ball to /usr/local/java
-   shell: "cp /home/{{ user }}/jdk-7u45-linux-x64.tar.gz /usr/local/java"
+   shell: "cp /home/{{ ansible_ssh_user }}/jdk-7u45-linux-x64.tar.gz /usr/local/java"
    when: java_version.stdout != '"1.7.0_45"'
 
  - name: Set ownership to Java TAR ball

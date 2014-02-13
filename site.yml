@@ -1,12 +1,21 @@
 ---
 
+# Ensure that standard user accounts are correct
+# - hosts: all:!bootstrap
+#   sudo: yes
+#   vars:
+#    ansible_ssh_port: 2222
+
+#   roles:
+#    - users
+
  - hosts: netkernel
    sudo: yes
    vars:
-     ansible_ssh_port: 2222
-
+    ansible_ssh_port: 2222
+  
    roles:
-    - users
+#    - users
     - java
     - netkernel
   
