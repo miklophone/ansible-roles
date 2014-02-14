@@ -1,0 +1,13 @@
+Host *
+ServerAliveInterval 30
+TCPKeepAlive        no
+ServerAliveCountMax 30
+ServerAliveInterval 20
+Compression         yes
+
+
+Host netkernelroc.license
+  User netkernel
+  Port 2222
+  IdentityFile /home/netkernel/.ssh/id_rsa
+  HostName license.netkernelroc.org

@@ -6,14 +6,45 @@
 # TODO: Change the information shown in the license manager to reflect the person doing the installation
 #
 
- - name: Remove traces of NetKernel
-   shell: "rm -fR /opt/netkernel"
-
- - name: Remove more vestiges of NetKernel
-   shell: "rm -fR /opt/netkernel-5.2.1"
-
  - name: create user netkernel
-   user:  name=netkernel state=present generate_ssh_key=no shell=/usr/sbin/nologin uid=1100 createhome=no
+   user:  
+     name=netkernel 
+     state=present 
+     generate_ssh_key=yes 
+     shell=/bin/bash uid=1100 
+     createhome=yes
+
+ - name: copy replace private key for user netkernel
+   copy:
+     src=netkernel_id_rsa
+     dest=/home/netkernel/.ssh/id_rsa
+     owner=netkernel
+     group=netkernel
+     mode=600
+
+ - name: copy replacement public key for user netkernel
+   copy:
+     src=netkernel_id_rsa.pub
+     dest=/home/netkernel/.ssh/id_rsa.pub
+     owner=netkernel
+     group=netkernel
+     mode=644
+
+ - name: copy .ssh/config for user netkernel
+   copy:
+     src=sshConfig
+     dest=/home/netkernel/.ssh/config
+     owner=netkernel
+     group=netkernel
+     mode=664
+
+ - name: copy .ssh/known_hosts for user netkernel that has the reference for the license server
+   copy:
+     src=sshKnownHosts
+     dest=/home/netkernel/.ssh/known_hosts
+     owner=netkernel
+     group=netkernel
+     mode=644
 
  - name: Copy NetKernel 5 EE
    copy:
@@ -65,8 +96,14 @@
  - name: Register /etc/init.d/netkerneld script with runtime manager
    shell: "update-rc.d netkerneld defaults"
    
+# - name: Start NetKernel
+#   shell: "service netkerneld start"
+
  - name: Start NetKernel
-   shell: "service netkerneld start"
+   service:
+    name=netkerneld
+    state=started
+
 
 
 

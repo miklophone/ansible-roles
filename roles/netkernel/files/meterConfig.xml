@@ -1,6 +1,7 @@
 <meter>
 	<servers>
-		<server>license.netkernelroc.org</server>
+		<!-- We use SSH port forwarding -->
+		<server>localhost</server>
 		<!--Can have failover meter servers when in production-->
 	</servers>
 	<period>336</period>	<!--Two weeks in hours-->
