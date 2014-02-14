@@ -4,7 +4,7 @@
 # Ref: http://www.cyberciti.biz/tips/howto-linux-shell-restricting-access.html
 
 # TODO: Change the information shown in the license manager to reflect the person doing the installation
-#
+# TODO: Create variables for the various files that could change 
 
  - name: create user netkernel
    user:  
@@ -46,6 +46,31 @@
      group=netkernel
      mode=644
 
+#
+# Setup the permanent SSH port forward to the license server
+#
+ - name: Install autossh
+   apt:
+     name=autossh
+     state=present
+
+ - name: Copy autossh.conf
+   copy:
+     src=autossh.conf
+     dest=/etc/init/autossh.conf
+     owner=root
+     group=root
+     mode=644
+
+ - name: Start autossh service
+   service:
+     name=autossh
+     state=started
+
+#
+# Install NetKernel
+#
+
  - name: Copy NetKernel 5 EE
    copy:
      src=1060-NetKernel-EE-5.2.1.jar
@@ -81,11 +106,7 @@
      insertbefore='</modules>'
      line='<module runlevel="6">modules/urn.com.ten60.netkernel.mod.license.mclient-1.3.0.sjar</module>'
 
- - name: Add /etc/init.d/netkerneld file
-   copy:
-     src=netkerneld
-     dest=/etc/init.d/netkerneld
-     mode=755
+# TODO: Change this to file
     
  - name: Change permissions on /opt/netkernel
    shell: "chown -R netkernel:netkernel /opt/netkernel"
@@ -93,18 +114,18 @@
  - name: Change permissions on /opt/netkernel-5.2.1
    shell: "chown -R netkernel:netkernel /opt/netkernel-5.2.1"
 
+#
+# Make NetKernel an OS service
+#
+
+ - name: Add /etc/init.d/netkerneld file
+   copy:
+     src=netkerneld
+     dest=/etc/init.d/netkerneld
+     mode=755
+
  - name: Register /etc/init.d/netkerneld script with runtime manager
    shell: "update-rc.d netkerneld defaults"
    
-# - name: Start NetKernel
-#   shell: "service netkerneld start"
-
  - name: Start NetKernel
-   service:
-    name=netkerneld
-    state=started
-
-
-
-
-           
+   action: service name=netkerneld  state=started  pattern=/opt/netkernel/bin/netkernel.sh

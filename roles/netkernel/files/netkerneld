@@ -4,7 +4,7 @@
 
 HOMEDIR=/opt/netkernel
 USER=netkernel
-APPNAME=NetKernel
+APPNAME=netkerneld
 
 # User Editable variables
 GREPPID="ten60.pid=1" # Must match the ten60.pid value set

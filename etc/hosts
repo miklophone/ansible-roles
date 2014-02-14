@@ -1,11 +1,13 @@
 
 [bootstrap]
 #198.211.100.46 fqdn=nk-01.netkernelroc.org
-198.211.98.96 fqdn=nk-02.netkernelroc.org
+#198.211.98.96 fqdn=nk-02.netkernelroc.org
+192.241.140.201 fqdn=nk-03.netkernelroc.org
 
 [netkernel]
 #198.211.100.46 fqdn=nk-01.netkernelroc.org
-198.211.98.96 fqdn=nk-02.netkernelroc.org
+#198.211.98.96 fqdn=nk-02.netkernelroc.org
+192.241.140.201 fqdn=nk-03.netkernelroc.org
 
 
 [memsql]
