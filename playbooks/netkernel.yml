@@ -1,5 +1,0 @@
----
-  - include: ../playbooks/setup-users-netkernel.yml
-  - include: ../playbooks/install-netkernel-java.yml
-  - include: ../playbooks/install-netkernel.yml
-  
