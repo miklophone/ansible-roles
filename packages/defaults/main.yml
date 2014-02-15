@@ -1,0 +1,6 @@
+---
+# Defaults for packages
+
+packages:
+  - emacs
+

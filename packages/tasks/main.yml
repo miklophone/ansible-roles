@@ -1,0 +1,14 @@
+---
+# This role contains plays that perform the lowest level machine setup
+
+# Setup the core packages that we need
+
+ - name: Update APT cache
+   apt:  update_cache=yes
+
+ - name: Update all existing APT packages on the system
+   apt:  upgrade=yes
+
+ - name: Install Packages from list of packages
+   apt: name={{ item }} state=latest
+   with_items: packages
