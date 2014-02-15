@@ -7,7 +7,7 @@ packages.
 Next it installs all packages mentioned by name in the 'packages' list.
 
 The default list is:
-<pre>
-packages:
-  - emacs
-</pre>
+
+    packages:
+      - emacs
+
