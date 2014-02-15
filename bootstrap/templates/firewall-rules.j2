@@ -15,7 +15,7 @@
 
 #  Allow SSH connections
 #
--A INPUT -p tcp -m state --state NEW --dport {{ sshport }} -j ACCEPT
+-A INPUT -p tcp -m state --state NEW --dport {{ ssh_port }} -j ACCEPT
 
 #  Allow ping
 #
@@ -34,5 +34,5 @@ COMMIT
 
 
 # Here is a rate-limiting rule for SSH
-# -A INPUT -p tcp --dport {{ sshport }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --set
-# -A INPUT -p tcp --dport {{ sshport }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --seconds 60 --hitcount 5 -j DROP
+# -A INPUT -p tcp --dport {{ ssh_port }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --set
+# -A INPUT -p tcp --dport {{ ssh_port }} -i {{ ansible_default_ipv4.alias }} -m state --state NEW -m recent --seconds 60 --hitcount 5 -j DROP
