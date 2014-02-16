@@ -12,3 +12,4 @@
  - name: Install Packages from list of packages
    apt: name={{ item }} state=latest
    with_items: packages
+#   when packages is defined
