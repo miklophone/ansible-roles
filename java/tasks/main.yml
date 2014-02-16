@@ -2,90 +2,35 @@
 # This role contains plays that install and configure Java
 
 # Setup Oracle Java 7
-# http://www.wikihow.com/Install-Oracle-Java-on-Ubuntu-Linux
+# https://www.digitalocean.com/community/articles/how-to-install-java-on-ubuntu-with-apt-get
 
- - name: Determine which version of Java is installed
-   shell: java -version 2>&1 | grep version | cut -d ' ' -f 3
-   register: java_version
-   ignore_errors: yes
+ - name: Install supporting code based on Python
+   apt: 
+     name=python-software-properties
+     state=installed
 
- - name: Copy Java 7u45 to compute instance
+ - name: Add a repository that contains Oracle Java
+   apt_repository: 
+     repo='ppa:webupd8team/java'  
+
+ - name: Update APT cache
+   apt:  
+     update_cache=yes
+
+ - name: Install debian configuration utilities
+   apt:
+     name=debconf-utils
+     state=installed
+
+ - name: Copy the answers for the Oracle Java installation
    copy:
-     src=jdk-7u45-linux-x64.tar.gz
-     dest=/home/{{ ansible_ssh_user }}/jdk-7u45-linux-x64.tar.gz
-     owner={{ ansible_ssh_user }}
-     group={{ ansible_ssh_user }}
-     mode=600
-   when: java_version.stdout != '"1.7.0_45"'
+     src=apt-install-answers.txt
+     dest=~/answers
 
- - name: Create /usr/local/java
-   file:
-     path=/usr/local/java
-     state=directory
-     owner=root
-     group=root
-   when: java_version.stdout != '"1.7.0_45"'
+ - name: Pre-answer the questions
+   shell: 'cat ~/answers | debconf-set-selections'
 
-     
- - name: Copy Java TAR ball to /usr/local/java
-   shell: "cp /home/{{ ansible_ssh_user }}/jdk-7u45-linux-x64.tar.gz /usr/local/java"
-   when: java_version.stdout != '"1.7.0_45"'
+ - name: Install Java
+   apt:
+    name=oracle-java7-installer
 
- - name: Set ownership to Java TAR ball
-   file:
-     path=/usr/local/java/jdk-7u45-linux-x64.tar.gz
-     owner=root
-     group=root
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Uncompress Java
-   shell: "cd /usr/local/java && tar xvzf jdk-7u45-linux-x64.tar.gz"
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Set environment to run Java
-   lineinfile: dest=/etc/profile
-               line='JAVA_HOME=/usr/local/java/jdk1.7.0_45'
-               state=present
-               backup=yes
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Set environment to run Java
-   lineinfile: dest=/etc/profile
-               line='PATH=$PATH:$HOME/bin:$JAVA_HOME/bin'
-               state=present
-               backup=yes
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Set environment to run Java
-   lineinfile: dest=/etc/profile
-               line='export JAVA_HOME'
-               state=present
-               backup=yes
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Set environment to run Java
-   lineinfile: dest=/etc/profile
-               line='export PATH'
-               state=present
-               backup=yes
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Inform Linux where the new Java is located
-   shell: 'update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.7.0_45/bin/java" 1'
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Inform Linux where the new Java Compiler is located
-   shell: 'update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.7.0_45/bin/javac" 1'
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Inform Linux that new Java is the default Java
-   shell: 'update-alternatives --set java /usr/local/java/jdk1.7.0_45/bin/java'
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Inform Linux that the new Java Compiler is the default Java compile
-   shell: 'update-alternatives --set javac /usr/local/java/jdk1.7.0_45/bin/javac'
-   when: java_version.stdout != '"1.7.0_45"'
-
- - name: Change ownership of /usr/local/java subdirectories
-   shell: "chown -R root:root /usr/local/java"
-   when: java_version.stdout != '"1.7.0_45"'
