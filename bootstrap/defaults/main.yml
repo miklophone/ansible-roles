@@ -4,7 +4,7 @@
 
 locale:   en_US.UTF-8
 timezone: America/New_York
-ssh_port:  2222
+
 
 users:
   - {name: foo,  group: admin, shell: /bin/bash, uid: 1000, sshkey: /files/users/randy_rsa.pub, password: $6$hFN6MFiP$7nk4PG5sw/n58bRLekTQmpo0IK4JO8ffP6BDyORroCRAy/ww7LmC5cwtAGpSSkiUfgBOwBxZ/14XdNWsSt7xg. }
