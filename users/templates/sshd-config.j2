@@ -26,7 +26,7 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin no    #PermitRootLogin yes
+PermitRootLogin yes
 StrictModes yes
 
 RSAAuthentication yes
@@ -89,7 +89,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 
 # Additional security
-AllowUsers {% for user in users %}  {{ user.name }} {% endfor %}
+AllowUsers root {% for user in users %}  {{ user.name }} {% endfor %}
 
 
 
