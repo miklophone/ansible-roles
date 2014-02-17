@@ -74,13 +74,13 @@
  - name: Copy NetKernel 5 EE
    copy:
      src=1060-NetKernel-EE-5.2.1.jar
-     dest=/home/{{ ansible_ssh_user }}/1060-NetKernel-EE-5.2.1.jar
+     dest=~{{ ansible_ssh_user }}/1060-NetKernel-EE-5.2.1.jar
      owner={{ ansible_ssh_user }}
      group={{ ansible_ssh_user }}
      mode=600
 
  - name: Install NetKernel
-   shell: "java -Dunattended.install.directory=/opt/netkernel -jar /home/{{ ansible_ssh_user }}/1060-NetKernel-EE-5.2.1.jar"
+   shell: "java -Dunattended.install.directory=/opt/netkernel -jar ~{{ ansible_ssh_user }}/1060-NetKernel-EE-5.2.1.jar"
 # absent directory /opt/netkernel  when: java_version.stdout != '"1.7.0_45"'
 
  - name: Move NetKernel to /opt/netkernel-5.2.1
