@@ -9,36 +9,25 @@
    user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }} groups='sudo'
    with_items: users
 
-# - name: Sudo users
-#   command: sudo usermod -a -G sudo {{ item.name }}
-#   with_items: users
-
-
  - name: Create .ssh directories
    file: path="/home/{{ item.name }}/.ssh" state=directory mode=700 group={{ item.name}} owner={{ item.name }}
    with_items: users
 
  - name: Setup user RSA public keys
-   copy: src="files/users/{{ item.name }}_rsa.pub" dest="/home/{{ item.name }}/.ssh/authorized_keys"
+   copy: src="{{ item.name }}_rsa.pub" dest="/home/{{ item.name }}/.ssh/authorized_keys"
    with_items: users
 
  - name: Set security and ownership on authorized_keys
    file: path="/home/{{ item.name }}/.ssh/authorized_keys" mode=600 group={{ item.name}} owner={{ item.name }}
    with_items: users
 
-
+#
 # Setup SSH configuration
+#
 
  - name: Setup SSH service configuration
    template: backup=yes dest=/etc/ssh/sshd_config src=sshd-config.j2 mode=0644
    notify: restart ssh
-
-#   template:
-#     backup: yes
-#     dest: /etc/ssh/sshd_config
-#     src: sshd-config.j2
-#     mode: 0644
-#   notify: restart ssh
 
 
 
