@@ -6,13 +6,13 @@
 
  - name: Download MemSQL Debian package
    get_url:
-     dest=/home/{{ user }}/memsql-2.5.x86_64.deb
+     dest=~{{ ansible_ssh_user}}/memsql-2.5.x86_64.deb
      url=http://download.memsql.com/ba4bf06801d64f659b2f98a1feec020b/memsql-2.5.x86_64.deb
      
 # TODO: Add a when clause to only run this is the service is not present
 # TODO: Only go past this point is there is at least 8 Gig RAM
  - name: Install MemSQL Debian package
-   command: 'dpkg -i /home/{{ user }}/memsql-2.5.x86_64.deb'
+   command: 'dpkg -i memsql-2.5.x86_64.deb'
 
 
 # TODO: Change this to a handler call
