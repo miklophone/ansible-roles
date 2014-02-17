@@ -6,7 +6,7 @@
 #   with_items: users
 
  - name: Setup user accounts
-   user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} uid={{ item.uid }} password={{ item.password }} groups='sudo'
+   user:  name={{ item.name }} state=present generate_ssh_key=no shell={{ item.shell }} password={{ item.password }} groups='sudo'
    with_items: users
 
  - name: Create .ssh directories
