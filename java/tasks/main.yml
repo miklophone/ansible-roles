@@ -1,5 +1,5 @@
 ---
-# This role contains plays that install and configure Java
+# This role contains tasks that install and configure Java
 
 # Setup Oracle Java 7
 # https://www.digitalocean.com/community/articles/how-to-install-java-on-ubuntu-with-apt-get
@@ -25,10 +25,10 @@
  - name: Copy the answers for the Oracle Java installation
    copy:
      src=apt-install-answers.txt
-     dest=~/answers
+     dest=~{{ ansible_ssh_user }}/answers
 
  - name: Pre-answer the questions
-   shell: 'cat ~/answers | debconf-set-selections'
+   shell: 'cat ~{{ ansible_ssh_user }}/answers | debconf-set-selections'
 
  - name: Install Java
    apt:
