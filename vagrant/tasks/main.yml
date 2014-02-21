@@ -1,0 +1,9 @@
+---
+# This role contains tasks for the least amount of work to prepare a vagrant
+# configured compute instance.
+
+# Setup the core packages that we need
+
+ - name: Update APT cache
+   apt:  update_cache=yes
+
