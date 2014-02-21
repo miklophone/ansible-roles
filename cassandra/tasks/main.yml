@@ -2,6 +2,11 @@
 # cassandra role sets up a Cassandra node.
 # Ref: http://www.ubuntuupdates.org/ppa/cassandra
 
+#
+# TODO: Gather facts about disk drives to set concurrent read/write options in config template
+# TODO: Open firewall for 7000, 9042, 9160
+#
+
  - name: Add repository key
    apt_key: data="{{ lookup('file', 'repo_key') }}"  state=present
 
@@ -10,3 +15,12 @@
 
  - name: Install Cassandra 2.0
    apt: pkg=dsc20 update-cache=yes state=installed
+
+ - name: Transfer Cassandra configuration file
+   template:
+     src=cassandra-2.0.yaml
+     dest=/etc/cassandra/cassandra.yaml
+   notify: restart cassandra
+   tags: 
+     config
+
